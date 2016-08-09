@@ -36,12 +36,12 @@ valid_postags = ["CON", "AP", "PRO", "ADV"]
 # Some of these are a result of a tagging or lemmatization error, others are explained in the article.
 
 invalid_words = ['alius', 'alter', 'certe', 'ego', 'eous', 'idem', 'libenter', 'meus', 'nos', 'noster', 'nullus', 'numquis', 
-		         'sui', 'tu', 'tuus', 'vester', 'virum', 'vos', 'phoca', 'annuo', 'as', 'ianua', 'intervallum', 'lavo', 'v',
-		         'accipio', 'ago', 'aio', 'audio', 'credo', 'debeo', 'dico', 'diligo', 'do', 'facio', 'fio', 'habeo', 'invenio',
-		         'inquam', 'loquor', 'nescio', 'unquam', 'semper', 'amen', 'cito', 'numquam', 'interim', 'profectus', 'parve',
-		         'pariter', 'annullo', 'averto', 'avis', 'cupio', 'festus', 'iucundus', 'milesius', 'moderor', 'nequeo', 'patrie',
-		         'plivium', 'querela', 'tutus', 'utor', 'valeo', 'verecundus', 'aura', 'fecundus', 'talio', 'fideliter', 'huiusmodi',
-		         'facile']
+		 'sui', 'tu', 'tuus', 'vester', 'virum', 'vos', 'phoca', 'annuo', 'as', 'ianua', 'intervallum', 'lavo', 'v',
+		 'accipio', 'ago', 'aio', 'audio', 'credo', 'debeo', 'dico', 'diligo', 'do', 'facio', 'fio', 'habeo', 'invenio',
+		 'inquam', 'loquor', 'nescio', 'unquam', 'semper', 'amen', 'cito', 'numquam', 'interim', 'profectus', 'parve',
+		 'pariter', 'annullo', 'averto', 'avis', 'cupio', 'festus', 'iucundus', 'milesius', 'moderor', 'nequeo', 'patrie',
+		 'plivium', 'querela', 'tutus', 'utor', 'valeo', 'verecundus', 'aura', 'fecundus', 'talio', 'fideliter', 'huiusmodi',
+		 'facile']
 		         
 # This is how the punctuation is tagged in the corpus. 
 # We make sure no punctuation is taken into account.
