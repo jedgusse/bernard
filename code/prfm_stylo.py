@@ -293,28 +293,28 @@ def PCA_2D(X_input):
 	vocab_weights_p1 = sorted(zip(features, comps[:,0]), key=lambda tup: tup[1], reverse=True)
 	vocab_weights_p2 = sorted(zip(features, comps[:,1]), key=lambda tup: tup[1], reverse=True)
 
-	# Plot PCA with loadings:
+	# Plot loadings:
 
 	if x == "y":
 
 		fig = plt.figure()
-		ax1 = fig.add_subplot(111)
-		x1, x2 = X_bar[:,0], X_bar[:,1]
-		ax1.scatter(x1, x2, edgecolors='none', facecolors='none')
-		for p1, p2, a, title in zip(x1, x2, authors, titles):
-			ax1.text(p1, p2, a[:3] + '_' + title.split("_")[1], ha='center',
-				    va='center', color=colours[a])
-		ax1.set_xlabel('PC1')
-		ax1.set_ylabel('PC2')
 
-		ax2 = ax1.twinx().twiny()
+		ax2 = fig.add_subplot(111)
 		l1, l2 = loadings[:,0], loadings[:,1]
 		ax2.scatter(l1, l2, 100, edgecolors='none', facecolors='none')
 		for x, y, l in zip(l1, l2, features):
 			ax2.text(x, y, l, ha='center', va='center', color='darkgrey',
 				fontdict={'family': 'Arial', 'size': 12})
 
+		ax2.set_xlabel('PC1')
+		ax2.set_ylabel('PC2')
+
+		plt.axhline(y=0, ls="--", lw=1.5, c='0.75')
+		plt.axvline(x=0, ls="--", lw=1.5, c='0.75')
+
 		plt.show()
+		fig.savefig("/Users/user/.../fig.pdf", transparent=True, format='pdf')
+		plt.close()
 
 	# Plot PCA without loadings:
 		
@@ -322,6 +322,8 @@ def PCA_2D(X_input):
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
 		x1, x2 = X_bar[:,0], X_bar[:,1]
+
+		print("The explained variance ratio is: ", var_exp[0] + var_exp[1], "%")
 
 		ax.scatter(x1, x2, 100, edgecolors='none', facecolors='none')
 		for p1, p2, a, title in zip(x1, x2, authors, titles):
@@ -347,50 +349,3 @@ def PCA_2D(X_input):
 		plt.show()
 		fig.savefig("/Users/user/.../fig.pdf", transparent=True, format='pdf')
 		plt.close()
-
-
-def PCA_3D(X_input):
-
-	# Initialize PCA
-	pca = PCA(n_components=3)
-	X_bar = pca.fit_transform(X_input)
-	var_exp = pca.explained_variance_ratio_
-	comps = pca.components_
-
-	print("Variance explained: ", var_exp[0] + var_exp[1] + var_exp[2])
-	print("Word types taken into account: ", ", ".join(valid_postags))
-	print("Features used: ", len(features), ":", ", ".join(features))
-
-	# Plot PCA
-	fig = plt.figure()
-	ax = fig.add_subplot(111, projection='3d')
-	x1, x2, x3 = X_bar[:,0], X_bar[:,1], X_bar[:,2]
-	ax.scatter(x1, x2, x3, edgecolors='none', facecolors='none')
-	for p1, p2, p3, a, title in zip(x1, x2, x3, authors, titles):
-		ax.text(p1, p2, p3, a[:3] + '_' + title, ha='center',
-				va='center', color=colours[a])
-	ax.set_xlabel('PC1')
-	ax.set_ylabel('PC2')
-	ax.set_zlabel('PC3')
-
-	plt.show()
-
-
-def plot_features(X_input):
-
-	# Initialize PCA
-	pca = PCA(n_components=2)
-	X_bar = pca.fit_transform(X_input)
-	var_exp = pca.explained_variance_ratio_
-	comps = pca.components_
-	comps = comps.transpose()
-
-	fig = plt.figure(figsize=(10,10))
-	ax1 = fig.add_subplot(111)
-	l1, l2 = comps[:,0], comps[:,1]
-	ax1.scatter(l1, l2, 100, edgecolors='none', facecolors='none')
-	for x, y, l in zip(l1, l2, features):
-		ax1.text(x, y, l, ha='center', va='center', color='darkgrey',
-				 fontdict={'family': 'Arial', 'size': 12})
-
-	plt.show()
