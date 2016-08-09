@@ -1,6 +1,6 @@
 # Bernard of Clairvaux and Nicholas of Montiéramey: *A Stylometric Investigation into the Secretary’s Influence*
 
-This repository comprises the code and corpora for the forthcoming article "Bernard of Clairvaux and Nicholas of Montiéramey: *A Stylometric Investigation into the Secretary’s Influence*". All texts were retrieved from the Patrologia Latina, although manual corrections in Bernard's texts were made based on Dom Jean Leclercq's editions (SBO, *Sancti Bernardi Opera*).
+This repository comprises the code, corpora and graphs for the forthcoming article "Bernard of Clairvaux and Nicholas of Montiéramey: *A Stylometric Investigation into the Secretary’s Influence*". All texts were retrieved from the Patrologia Latina, although manual corrections in Bernard's texts were made based on Dom Jean Leclercq's editions (SBO, *Sancti Bernardi Opera*).
 
 # Acknowledgements
 
