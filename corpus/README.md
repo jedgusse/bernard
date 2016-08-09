@@ -11,8 +11,8 @@
 
 **SERMONS**
 
-- div_div.txt: Bernard's *Sermones De Diversis*
-- dub_dub.txt: Nicholas' "stolen" texts sent to Henry the Liberal (9 sermons from Bernard's *De Diversis*, see article) 
-- hugo_hugo.txt: Hugh of St. Victor's *Adnotationes elucidatoriae in quosdam Psalmos David*
-- nic_serm.txt: Nicholas' 19 sermons
 - sc_sc.txt: Bernard's *Super Cantica Canticorum*
+- div_div.txt: Bernard's *Sermones De Diversis*
+- nic_serm.txt: Nicholas' 19 sermons
+- hugo_hugo.txt: Hugh of St. Victor's *Adnotationes elucidatoriae in quosdam Psalmos David*
+- dub_dub.txt: Nicholas' "stolen" texts sent to Henry the Liberal (9 sermons from Bernard's *De Diversis*, see article) 
