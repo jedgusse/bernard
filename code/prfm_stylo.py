@@ -279,6 +279,8 @@ colours = {'brev': '#2a7b9c', 'new': '#64b9db', 'pre': '#e47c66', 'post': '#ffb2
 
 def PCA_2D(X_input):
 
+	# Function will ask you whether to call the PCA plot or only the loadings
+
 	x = input("Show loadings? (y/n) ")
 
 	# Initialize PCA
@@ -291,7 +293,8 @@ def PCA_2D(X_input):
 	vocab_weights_p1 = sorted(zip(features, comps[:,0]), key=lambda tup: tup[1], reverse=True)
 	vocab_weights_p2 = sorted(zip(features, comps[:,1]), key=lambda tup: tup[1], reverse=True)
 
-	# Plot PCA with loadings
+	# Plot PCA with loadings:
+
 	if x == "y":
 
 		fig = plt.figure()
@@ -313,6 +316,8 @@ def PCA_2D(X_input):
 
 		plt.show()
 
+	# Plot PCA without loadings:
+		
 	elif x == "n":
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
@@ -336,12 +341,11 @@ def PCA_2D(X_input):
 
 		plt.legend(handles=[brev_patch, new_patch, pre_patch, mid_patch, post_patch, nic_patch], loc=1, prop={'size':9})
 
-		#plt.plot([0,0], [1, 2], ":", lw=2)
 		plt.axhline(y=0, ls="--", lw=1.5, c='0.75')
 		plt.axvline(x=0, ls="--", lw=1.5, c='0.75')
 		
 		plt.show()
-		fig.savefig("/Users/jedgusse/Stylo_R/fig.pdf", transparent=True, format='pdf')
+		fig.savefig("/Users/user/.../fig.pdf", transparent=True, format='pdf')
 		plt.close()
 
 
