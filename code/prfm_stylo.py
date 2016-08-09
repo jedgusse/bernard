@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import glob
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -18,15 +20,20 @@ from scipy.spatial.distance import cityblock as manhattan
 from sklearn.neighbors import NearestNeighbors
 import operator
 
-# Switches to be turned:
+# Switches that can be turned; PoS n-grams, permutations, lemma n-grams, length of text samples, ... Feel free to experiment.
 
 n_pos = 3
 n_perm = 3
 n = 4
 sample_length = 1500
 
+# valid_postags decides which types of words are allowed to become features.
+# In this case we have chosen only conjunctions, appositions, pronouns and adverbs to be taken into consideration. 
+
 valid_postags = ["CON", "AP", "PRO", "ADV"]
-# "CON", "ADV", "AP", "PRO", "V"
+
+# Invalid_words are those words which we have manually decided to leave out of our features list. 
+# Some of these are a result of a tagging or lemmatization error, others are explained in the article.
 
 invalid_words = ['alius', 'alter', 'certe', 'ego', 'eous', 'idem', 'libenter', 'meus', 'nos', 'noster', 'nullus', 'numquis', 
 		         'sui', 'tu', 'tuus', 'vester', 'virum', 'vos', 'phoca', 'annuo', 'as', 'ianua', 'intervallum', 'lavo', 'v',
@@ -35,10 +42,9 @@ invalid_words = ['alius', 'alter', 'certe', 'ego', 'eous', 'idem', 'libenter', '
 		         'pariter', 'annullo', 'averto', 'avis', 'cupio', 'festus', 'iucundus', 'milesius', 'moderor', 'nequeo', 'patrie',
 		         'plivium', 'querela', 'tutus', 'utor', 'valeo', 'verecundus', 'aura', 'fecundus', 'talio', 'fideliter', 'huiusmodi',
 		         'facile']
-
-invalid_ngrams = {'_de_', '_est', '_et_', '_in_', '_non', '_pro', '_qua', '_qui', '_quo', '_sed', '_ut_', 'est_', 'iam_', 'itat',
-				 'mus_', 'non_', 'que_', 'qui_', 'quod', 'sed_', '_ad_', '_ill', '_si_', '_ves', 'cum_', 'estr', 'omin', 'quam',
-				 'quid', 'vest', 'erit', '_dom', '_nos'}
+		         
+# This is how the punctuation is tagged in the corpus. 
+# We make sure no punctuation is taken into account.
 
 punctuation = ["$,", "$.", "$("]
 
@@ -50,7 +56,7 @@ npos_sample_l = int(np.round(sample_length / n_pos))
 texts = []
 word2vec_models = []
 
-for filename in glob.glob("/Users/jedgusse/Stylo_R/tagged_texts/experiments/*.txt"):
+for filename in glob.glob("/Users/user/.../*.txt"):
 	fn = filename.split("/")[-1].replace(".txt", "")
 	author, title = fn.split("_")
 	with open(filename, 'r') as f:
@@ -135,8 +141,8 @@ for filename in glob.glob("/Users/jedgusse/Stylo_R/tagged_texts/experiments/*.tx
 							temp_list.append("YY".join(comb))
 				permutations.append(tuple(temp_list))
 
-		# Zip the samples together and name them
-		# Rule out those samples which are shorter than the desired sample length
+		# The samples are zipped together and named
+		# Those samples which are shorter than the desired sample length are ruled out of the experiment
 		samples = zip(tokens, lemmas, postags, posngrams, function_words, ngrams, permutations)
 		for index, sample in enumerate(samples):
 			if len(sample[0]) == sample_length:
@@ -152,6 +158,8 @@ authors, titles, tokens, lemmas, postags, posngrams, function_words, ngrams, per
 # Instantiate model for two different kinds of features, one for lemma frequencies, the other for morpho-ngram-frequencies
 # The stop_word for v_f_word gives us the liberty to discard some features which we feel to be irrelevant.
 # You can delete those irrelevant function words in the invalid_words list in the top of the script
+# The TF-IDF vectorizer is a normalization procedure which in our case penalizes often occurring function words in favour of rare function
+# words, see Christopher D. Manning et al., Introduction to Information Retrieval, (Cambridge, 2008), 117-33.
 
 v_f_word = TfidfVectorizer(max_features=150, token_pattern=r"(?u)\b\w+\b", stop_words=invalid_words)
 v_posngrams = TfidfVectorizer(max_features=150, token_pattern=r"(?u)\b\w+\b")
@@ -188,6 +196,7 @@ vocab_perm = v_permutations.get_feature_names()
 # -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o
 
 # Huge list of features based on the semantics of our function words
+# This was an experiment unmentioned in the article, it can be left out of the code.
 
 long_list = []
 for author, title, model in zip(authors, titles, word2vec_models):
@@ -203,22 +212,35 @@ X_w2v = X_w2v / np.std(X_w2v, axis=0)
 
 # -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o
 
-# Make array for X, in which all features are taken into account
+# Make array for X, in which the desired features are taken into account
 # Add up all the features in one list
 
 features = vocab_f_word
-#X = np.concatenate((X_posngrams, X_permutations, X_f_word), axis=1)
 X = X_f_word
+
+# If desired, you can concatenate multiple features into one array, unhash this line of code:
+
+#X = np.concatenate((X_posngrams, X_permutations, X_f_word), axis=1)
 
 # CREATING DISTANCE DATA FOR GEPHI, COMPUTING K NEAREST NEIGHBOURS BY FUNCTION WORD FREQUENCIES
 # -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o
 
-# We only have four weights since we will not take into account the text itself in the algorithm
+# Here we make the tab-separated txt files which should go into GEPHI; we instantiate a file object.
+# Calculates Nearest Neighbours of each txt sample.
+
+fob_nodes = open("/Users/user/...", "w")
+fob_edges = open("/Users/user/...", "w")
+fob_nodes.write("Id" + "\t" + "Work" + "\t" + "Author" + "\n")
+fob_edges.write("Source" + "\t" + "Target" + "\t" + "Type" + "\t" + "Weight" + "\n")
+
+# Weights in rank of closest distance and k:
 
 weights =  [1.0, 0.95, 0.9, 0.8, 0.7]
 k = 6
 nbrs = NearestNeighbors(n_neighbors=k, algorithm='ball_tree').fit(X_f_word)
 distances, indices = nbrs.kneighbors(X)
+
+# Group our nearest texts:
 
 nearest_texts = []
 for distance, index_list in zip(distances, indices):
@@ -228,10 +250,7 @@ for distance, index_list in zip(distances, indices):
 						(titles[index_list[4]], authors[index_list[4]], weights[3], index_list[4] + 1),
 						(titles[index_list[5]], authors[index_list[5]], weights[4], index_list[5] + 1),))
 
-fob_nodes = open("/Users/jedgusse/Stylo_R/gephi_nodes_edges/nodes.txt", "w")
-fob_edges = open("/Users/jedgusse/Stylo_R/gephi_nodes_edges/edges.txt", "w")
-fob_nodes.write("Id" + "\t" + "Work" + "\t" + "Author" + "\n")
-fob_edges.write("Source" + "\t" + "Target" + "\t" + "Type" + "\t" + "Weight" + "\n")
+# Write out to files:
 
 for index, (author, title, nearest_text) in enumerate(zip(authors, titles, nearest_texts)):
 	fob_nodes.write(str(index + 1) + "\t" + str(title) + "\t" + str(author) + "\n")
@@ -246,13 +265,14 @@ for index, (author, title, nearest_text) in enumerate(zip(authors, titles, neare
 
 # Instantiate colours for the plot on the PCA (authors)
 # b: blue, g: green, r: red, c: cyan, m: magenta, y: yellow, k: black, w: white
-# You can also use #hex color strings '#988ED5'
-colours = {'brev': '#2a7b9c', 'new': '#64b9db', 'pre': '#e47c66', 'post': '#ffb2a2', 'mid': '#ff8b72', 'nic': '#add45c', 'sc': '#2a7b9c', 
-		   'novit': 'r', 'div': '#c6c8c5', 'dub': '#e47c66', 'hugo': '#00baae'}
+# You can also use #hex color strings as '#988ED5'
 
-# Plot PCA functions with our new data points which we received in X_bar
-# Inside the PCA plots we instantiate the number of components and reduce X to the size of required features
-# We get a score of how much of the variance the plot explains
+colours = {'brev': '#2a7b9c', 'new': '#64b9db', 'pre': '#e47c66', 'post': '#ffb2a2', 'mid': '#ff8b72', 'nic': '#add45c', 'sc': '#2a7b9c', 
+		   'div': '#c6c8c5', 'dub': '#e47c66', 'hugo': '#00baae'}
+
+# Plot PCA functions with our new data points which we received in X_bar (pca.fit_transform(X_input)).
+# Inside the PCA plots we instantiate the number of components and reduce X to the size of required features.
+# We get a score of how much of the variance the plot explains.
 
 def PCA_2D(X_input):
 
@@ -302,7 +322,7 @@ def PCA_2D(X_input):
 		ax.set_xlabel('PC1')
 		ax.set_ylabel('PC2')
 
-		# Legend settings
+		# Make a legend:
 
 		brev_patch = mpatches.Patch(color=colours['brev'], label='Bernard\'s intra corpus (brevis)')
 		new_patch = mpatches.Patch(color=colours['new'], label='Bernard\'s intra corpus (perfectum additions)')
@@ -367,5 +387,3 @@ def plot_features(X_input):
 				 fontdict={'family': 'Arial', 'size': 12})
 
 	plt.show()
-
-PCA_3D(X)
