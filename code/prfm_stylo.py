@@ -56,6 +56,9 @@ npos_sample_l = int(np.round(sample_length / n_pos))
 texts = []
 word2vec_models = []
 
+# Collect all corpus texts into one folder, and open folder with the glob.glob function
+# Make sure corpus text file is named "author_title", or for instance: "nic_sermons".
+
 for filename in glob.glob("/Users/user/.../*.txt"):
 	fn = filename.split("/")[-1].replace(".txt", "")
 	author, title = fn.split("_")
