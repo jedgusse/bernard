@@ -1,4 +1,4 @@
-# "Bernard of Clairvaux and Nicholas of Montiéramey: A Stylometric Investigation into the Secretary’s Influence"
+# "Bernard of Clairvaux and Nicholas of Montiéramey: Tracing the Secretarial Trail with Computational Stylistics"
 
 This repository comprises the code, corpora and graphs for the forthcoming article by Jeroen De Gussem, "Bernard of Clairvaux and Nicholas of Montiéramey: *Tracing the Secretarial Trail with Computational Stylistics*". 
 
