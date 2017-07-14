@@ -4,10 +4,13 @@ This repository comprises the code, corpora and appendix of figures for Jeroen D
 
 # Corpus
 
-The analysis relied upon the digitized texts of Bernard of Clairvaux’s *Corpus epistolarum*, *Sermones de diversis*, and *Sermones super Cantica canticorum* as they appear in the state-of-the-art scholarly edition of the Sancti Bernardi Opera by Leclercq et al. included in the online Brepols Library of Latin Texts. The digitized text files of these editions have been generously provided for our experiments by our project partner, [Brepols Publishers](www.brepolis.net)
+The analysis relied upon the digitized texts of Bernard of Clairvaux’s *Corpus epistolarum*, *Sermones de diversis*, and *Sermones super Cantica canticorum* as they appear in the state-of-the-art scholarly edition of the Sancti Bernardi Opera by Leclercq et al. included in the online Brepols Library of Latin Texts. The digitized text files of these editions have been generously provided for our experiments by our project partner, [Brepols Publishers](www.brepolis.net).
+
 For Nicholas of Montiéramey’s letters we are provisionally still reliant on the digitally available *Patrologia Latina*. 
-All text data are available in the *corpora* folder for experimental replication, yet in a camouflaged form so that the copyright protection on the original text editions is respected. Only the texts’ function words were retained in their original form, whereas all content-loaded words were filtered out and replaced by dummy words. 
-Since Leclercq’s editions and the Patrologia Latina make use of different orthographical conventions, and since Latin is a synthetic language with a high degree of inflection, Bernard and Nicholas’s lexemes were lemmatized (which means that a specific instance of the word is referred to its headword) and a text’s words (tokens) are classified according to grammatical categories (parts of speech). For this purpose we applied the Pandora lemmatizer tagger on the texts, a piece of software developed to achieve specifically this. 
+
+All text data are available in the *corpora* folder for experimental replication, yet in a camouflaged form so that the copyright protection on the original text editions is respected. Only the texts’ function words were retained in their original form, whereas all content-loaded words were filtered out and replaced by so-called "dummy words".
+
+Since Leclercq’s editions and the Patrologia Latina make use of different orthographical conventions, and since Latin is a synthetic language with a high degree of inflection, Bernard and Nicholas’s lexemes were lemmatized (which means that a specific instance of the word is referred to its headword) and a text’s words (tokens) are classified according to grammatical categories (parts of speech). For this purpose we applied the [Pandora lemmatizer](https://github.com/mikekestemont/pandora) tagger on the texts, a piece of software developed to achieve specifically this. 
 
 # Code and Visualizations
 
