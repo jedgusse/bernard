@@ -1,19 +1,19 @@
 #!/usr/bin/env
 
+import os
 from preprocess import DataReader, Vectorizer
 from visualization import PrinCompAnal, GephiNetworks
 
 # Insert folder where text files are located to perform:
 	# Principal components analysis
 	# k-NN networks (Gephi network analysis)
-folder_location = "/Users/..."
+folder_location = os.path.dirname(os.getcwd()) + "/data"
 
 # PARAMETERS
 ### ||| ------ ||| ###
 
-sample_size = 4000
+sample_size = 3000
 n_feats = 150
-step_size = 10000
 
 rnd_dct = {'n_samples': 140,
 		   'smooth_train': True, 

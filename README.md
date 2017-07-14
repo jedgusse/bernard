@@ -14,10 +14,15 @@ Since Leclercq’s editions and the *Patrologia Latina* make use of different or
 
 # Code and Visualizations
 
-The code is written in Python, and allows to replicate the experiments and graphs produced in the article. This code is open-source. Feel free to borrow, readjust, correct, etc. 
+The code above is written in [Python 3](https://www.python.org/downloads/release/python-360/)), and requires many packages collected under the [Anaconda](https://www.continuum.io/downloads) distribution. 
 
-All it takes is to locate the downloaded folder in a directory. Run the Python script from the terminal by typing the following line of code:
+Clone this repository locally (i.e. download it and place it anywhere). The texts under scrutiny are already in the data folder. All it takes is to download the repository. Run the Python script from the *code* folder in the terminal by typing the following command:
+
 ```python main.py```
+
+
+
+
 
 # Acknowledgements
 

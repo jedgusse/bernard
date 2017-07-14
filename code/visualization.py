@@ -13,6 +13,7 @@ import matplotlib.lines as mlines
 import matplotlib.ticker as ticker
 from nltk import ngrams
 import numpy as np
+import os
 import random
 import seaborn.apionly as sns
 from scipy import stats
@@ -276,8 +277,8 @@ class GephiNetworks:
 			authors = strat_authors
 			texts = strat_texts
 
-		fob_nodes = open("/Users/jedgusse/compstyl/output/gephi_output/gephi_nodes.txt", "w")
-		fob_edges = open("/Users/jedgusse/compstyl/output/gephi_output/gephi_edges.txt", "w")
+		fob_nodes = open(os.path.dirname(os.getcwd()) + "/gephi_output/gephi_nodes.txt", "w")
+		fob_edges = open(os.path.dirname(os.getcwd()) + "/gephi_output/gephi_edges.txt", "w")
 
 		fob_nodes.write("Id" + "\t" + "Work" + "\t" + "Author" + "\n")
 		fob_edges.write("Source" + "\t" + "Target" + "\t" + "Type" + "\t" + "Weight" + "\n")
