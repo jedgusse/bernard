@@ -4,9 +4,9 @@ This repository comprises the code, corpora and appendix of figures for Jeroen D
 
 # Corpus Details
 
-* The analysis relied upon the digitized texts of Bernard of Clairvaux’s *Corpus epistolarum*, *Sermones de diversis*, and *Sermones super Cantica canticorum* as they appear in the state-of-the-art scholarly edition of the *Sancti Bernardi Opera*, ed. Jean Leclercq et al., 8 vols. (Rome, 1957–-77): the *Corpus epistolarum* (*vols.* 7–-8), *Sermones de diversis* (*vol.* 6), and *Sermones super Cantica canticorum* (*vols.* 1-–2). included in the online Brepols Library of Latin Texts. The digitized text files of these editions have been generously provided for our experiments by our project partner, [Brepols Publishers](http://www.brepolis.net).
+* The analysis relied upon the digitized texts of Bernard of Clairvaux’s *Corpus epistolarum*, *Sermones de diversis*, and *Sermones super Cantica canticorum* as they appear in the state-of-the-art scholarly edition of the *Sancti Bernardi Opera*, ed. Jean Leclercq et al., 8 vols. (Rome, 1957–-77): the *Corpus epistolarum* (*vols.* 7–-8), *Sermones de diversis* (*vol.* 6), and *Sermones super Cantica canticorum* (*vols.* 1-–2). included in the online [Brepols Library of Latin Texts](http://clt.brepolis.net/llta/). The digitized text files of these editions have been generously provided for our experiments by our project partner, [Brepols Publishers](http://www.brepolis.net).
 
-* For Nicholas of Montiéramey’s letters we are provisionally still reliant on the digitally available *Patrologia Latina* (*PL* 196:1651a–1654b). The sermons have been identified by Jean Leclercq in “Les collections de sermons de Nicolas de Clairvaux,” *Recueil d’études*, 1:52–54. They are collected among those of Peter Damian in *PL* 144, more specifically “Sermo in nativitate S. Ioannis Baptistae” (627), “Sermo in natali apostolorum Petri et Pauli” (649), “Sermo in natali S. Benedicti de evangelio” (548), “Sermo in festivitate S. Mariae Magdalenae” (660), “Sermo in festivitate S. Petri ad vincula” (646), “Sermo in assumptione B. Mariae” (717), “Sermo in nativitate B. Mariae” (736), “Sermo in exaltatione S. crucis” (761), “Sermo in festivitate angelorum” (794), “Sermo in dedicatione ecclesiae” (897), “Sermo in festivate S. Victoris” (732), “Sermo in festivitate omnium sanctorum” (811), “Sermo in festivitate S. Martini” (815), “Sermo in festivitate S. Andreae” (828), “Sermo in festivitate B. Nicholai” (835), “Sermo in festivitate B. Mariae” (557), “Sermo in vigilia nativitatis” (839), “Sermo in nativitate Domini” (847), and “Sermo in festivitate B. Stephani” (853).
+* For Nicholas of Montiéramey’s letters we are provisionally still reliant on the digitally available [*Patrologia Latina*](http://pld.chadwyck.co.uk/) (*PL* 196:1651a–1654b). The sermons have been identified by Jean Leclercq in “Les collections de sermons de Nicolas de Clairvaux,” *Recueil d’études*, 1:52–54. They are collected among those of Peter Damian in *PL* 144, more specifically “Sermo in nativitate S. Ioannis Baptistae” (627), “Sermo in natali apostolorum Petri et Pauli” (649), “Sermo in natali S. Benedicti de evangelio” (548), “Sermo in festivitate S. Mariae Magdalenae” (660), “Sermo in festivitate S. Petri ad vincula” (646), “Sermo in assumptione B. Mariae” (717), “Sermo in nativitate B. Mariae” (736), “Sermo in exaltatione S. crucis” (761), “Sermo in festivitate angelorum” (794), “Sermo in dedicatione ecclesiae” (897), “Sermo in festivate S. Victoris” (732), “Sermo in festivitate omnium sanctorum” (811), “Sermo in festivitate S. Martini” (815), “Sermo in festivitate S. Andreae” (828), “Sermo in festivitate B. Nicholai” (835), “Sermo in festivitate B. Mariae” (557), “Sermo in vigilia nativitatis” (839), “Sermo in nativitate Domini” (847), and “Sermo in festivitate B. Stephani” (853).
 
 All text data are available in the *corpus* folder for experimental replication, yet in a camouflaged form so that the copyright protection on the original text editions is respected. Only the texts’ function words were retained in their original form, whereas all content-loaded words were filtered out and replaced by so-called "dummy words".
 
@@ -14,14 +14,11 @@ Since Leclercq’s editions and the *Patrologia Latina* make use of different or
 
 # Code and Visualizations
 
-The code above is written in [Python 3](https://www.python.org/downloads/release/python-360/)), and requires many packages collected under the [Anaconda](https://www.continuum.io/downloads) distribution. 
+The code above is written in [Python 3](https://www.python.org/downloads/release/python-360/)), and requires a number of packages collected under the [Anaconda](https://www.continuum.io/downloads) distribution. 
 
-Clone this repository locally (i.e. download it and place it anywhere). The texts under scrutiny are already in the data folder. All it takes is to download the repository. Run the Python script from the *code* folder in the terminal by typing the following command:
+Clone this repository locally (i.e. download it in a convenient location). The texts under scrutiny are already in the data folder. In the terminal, change your current directory to the bernard folder, and run the Python script simply by typing the following command:
 
-```python main.py```
-
-
-
+```python code/main.py```
 
 
 # Acknowledgements
@@ -30,4 +27,5 @@ This article is a result of the research project “Collaborative Authorship in 
 
 # References
 
+-- forthcoming --
 

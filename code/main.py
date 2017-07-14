@@ -28,19 +28,14 @@ test_dict = {}
 
 if __name__ == '__main__':
 
+	print('::: preprocessing :::')
 	authors, titles, texts = DataReader(folder_location, sample_size,
 										test_dict, rnd_dct
 										).metadata(sampling=True,
 										type='folder',
 										randomization=False)
 
-	doc_vectors, doc_features = Vectorizer(texts, invalid_words,
-									  n_feats=n_feats,
-									  feat_scaling=False,
-									  analyzer='word',
-									  vocab=None
-									  ).raw()
-
+	print('::: tfidf-vectorizing :::')
 	tfidf_vectors, tfidf_features = Vectorizer(texts, invalid_words,
 								  n_feats=n_feats,
 								  feat_scaling='standard_scaler',
@@ -48,6 +43,7 @@ if __name__ == '__main__':
 								  vocab=None
 								  ).tfidf(smoothing=True)
 
+	print('::: plotting principal components analysis :::')
 	PrinCompAnal(authors, titles, tfidf_vectors, tfidf_features, sample_size, n_components=2).plot(
 													show_samples=True,
 													show_loadings=True,
@@ -56,7 +52,9 @@ if __name__ == '__main__':
 	# Note that this returns node and edge worksheets (gephi_nodes.txt, gephi_edges.txt)
 	# Gephi needs to be downloaded and the worksheets need to be imported
 	# https://gephi.org/
+
+	print('::: writing Gephi document sheets (nodes and edges) :::')
 	GephiNetworks(folder_location, sample_size, invalid_words).plot(feat_range=[10, 50, 100, 150], 
-																		random_sampling='stratified',
+																		random_sampling=None,
 																		corpus_size=90)
 	

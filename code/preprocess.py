@@ -29,7 +29,6 @@ def randomizer(authors, titles, texts, sample_size,
 
 	""" |--- Function for randomly sampling from texts ---|
 		::: Authors, Titles, Texts ::: """
-
 	sampled_authors = []
 	sampled_titles = []
 	sampled_texts = []

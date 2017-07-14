@@ -108,48 +108,21 @@ class PrinCompAnal:
 
 				# If anything needs to be invisible in plot, add to exclusion_list
 
-				exclusion_list = []
-
-				potential_dict = {'sciv': '#D8E665', 'ldo': '#e67465', 'lvm': '#6597e6'}
-				potential_dict2 = {'sciv': 'Scivias', 'ldo': 'Liber diuinorum operum', 'lvm': 'Liber uite meritorum'}
 				ax.scatter(x1, x2, 100, edgecolors='none', facecolors='none', cmap='rainbow')
 				for index, (p1, p2, a, title) in enumerate(zip(x1, x2, self.authors, self.titles)):
-					# ax.scatter(p1, p2, marker='o', color=cmap(color_dict[a]), s=20)
-					ax.scatter(p1, p2, marker='o', color=potential_dict[a], s=20)
+					ax.scatter(p1, p2, marker='o', color=cmap(color_dict[a]), s=20)
 					ax.text(p1, p2, title.split('_')[-1], color='black', fontdict={'size': 5})
-					# if a not in exclusion_list:
-					# 	ax.text(p1, p2, title, ha='center',
-					#     va='center', color=cmap(color_dict[a]), 
-					#     fontdict={'size': 7})
-					
-
-				"""||| LEGEND FOR ARTICLE ENRIQUE AND MIKE ||| """		
-				"""ax.scatter(x1, x2, 100, edgecolors='none', facecolors='none', cmap='rainbow')
-				for index, (p1, p2, a, title) in enumerate(zip(x1, x2, self.authors, self.titles)):
-					if title.split('-')[0] == 'gener':
-						ax.scatter(p1, p2, marker='^', color=cmap(color_dict[a]), s=9)
-					else:
-						ax.scatter(p1, p2, marker='o', color=cmap(color_dict[a]), s=9)"""
 
 				# Legend settings (code for making a legend)
 
 				collected_patches = []
 				for author in set(self.authors):
-					# legend_patch = mpatches.Patch(color=cmap(color_dict[author]), label=author.split('-')[0])
-					legend_patch = mpatches.Patch(color=potential_dict[author], label=potential_dict2[author])
+					legend_patch = mpatches.Patch(color=cmap(color_dict[author]), label=author.split('-')[0])
 					collected_patches.append(legend_patch)
-
-				#generated_triangle = ax.scatter([],[], marker='^', color='black', label=r'Ngram-Generated $\bar{\alpha}$')
-				#real_circle = ax.scatter([],[], marker='o', color='black', label=r'Authentic $\omega$')
-				#collected_patches.append(generated_triangle)
-				#collected_patches.append(real_circle)
 				plt.legend(handles=collected_patches, fontsize=7)
 
 				ax.set_xlabel('Principal Component 1 \n \n Explained Variance: {}% \n Sample Size: {} words/sample \n Number of Features: {} features'.format(str(explained_variance), str(self.sample_size), str(len(self.features))), fontdict={'size': 7})
 				ax.set_ylabel('Principal Component 2', fontdict={'size': 7})
-
-				#ax.set_xlabel('Principal Component 1: {}%'.format(var_pc1))
-				#ax.set_ylabel('Principal Component 2: {}%'.format(var_pc2))
 
 				if show_loadings == True:
 					ax2 = ax.twinx().twiny()
@@ -165,13 +138,10 @@ class PrinCompAnal:
 					# This is due to the axes aligning (def align).
 
 					ax2.margins(x=0.14, y=0.14)
-
 					align_xaxis(ax, 0, ax2, 0)
 					align_yaxis(ax, 0, ax2, 0)
-
 					plt.axhline(y=0, ls="--", lw=0.5, c='0.75')
-					plt.axvline(x=0, ls="--", lw=0.5, c='0.75')
-					
+					plt.axvline(x=0, ls="--", lw=0.5, c='0.75')			
 					plt.tight_layout()
 					plt.show()
 				
@@ -185,7 +155,7 @@ class PrinCompAnal:
 
 					# Converting PDF to PNG, use pdftoppm in terminal and -rx -ry for resolution settings
 
-				fig.savefig("/Users/jedgusse/compstyl/output/fig_output/pcafig.pdf", transparent=True, format='pdf')
+				fig.savefig(os.path.dirname(os.getcwd()) + "/pca.pdf", transparent=True, format='pdf')
 
 			elif show_samples == False:
 
@@ -208,7 +178,7 @@ class PrinCompAnal:
 
 				plt.tight_layout()
 				plt.show()
-				fig.savefig("/Users/jedgusse/compstyl/output/fig_output/pcafig.pdf", bbox_inches='tight', transparent=True, format='pdf')
+				fig.savefig(os.path.dirname(os.getcwd()) + "/pca.pdf", bbox_inches='tight', transparent=True, format='pdf')
 
 				# Converting PDF to PNG, use pdftoppm in terminal and -rx -ry for resolution settings
 
@@ -226,7 +196,7 @@ class PrinCompAnal:
 			plt.tight_layout()
 			plt.show()
 
-			sns_plot.savefig("/Users/jedgusse/compstyl/output/fig_output/pcasbrn.pdf")
+			sns_plot.savefig(os.path.dirname(os.getcwd()) + "/pca.pdf")
 			
 class GephiNetworks:
 
@@ -277,8 +247,8 @@ class GephiNetworks:
 			authors = strat_authors
 			texts = strat_texts
 
-		fob_nodes = open(os.path.dirname(os.getcwd()) + "/gephi_output/gephi_nodes.txt", "w")
-		fob_edges = open(os.path.dirname(os.getcwd()) + "/gephi_output/gephi_edges.txt", "w")
+		fob_nodes = open(os.path.dirname(os.getcwd()) + "/gephi_nodes.txt", "w")
+		fob_edges = open(os.path.dirname(os.getcwd()) + "/gephi_edges.txt", "w")
 
 		fob_nodes.write("Id" + "\t" + "Work" + "\t" + "Author" + "\n")
 		fob_edges.write("Source" + "\t" + "Target" + "\t" + "Type" + "\t" + "Weight" + "\n")
@@ -340,9 +310,11 @@ class GephiNetworks:
 			neighbors = sum(neighbors, [])
 			dsts = sum(dsts, [])
 
-			model = CountVectorizer(lowercase=False)
+			# Token pattern in order for hyphenated title names not to become split up
+			pattern = "(?u)\\b[\\w-]+\\b"
+			model = CountVectorizer(lowercase=False, token_pattern=pattern)
 			count_dict = model.fit_transform(neighbors)
-			
+
 			# Collect all the candidates per sample that were chosen by the algorithm as nearest neighbor at least once
 			candidate_dict = {neighbor: [] for neighbor in model.get_feature_names()}
 			for nbr, dst in zip(neighbors, dsts):
@@ -363,398 +335,3 @@ class GephiNetworks:
 		columns = sum([['neighbor {}'.format(str(i)), 'dst {}'.format(str(i))] for i in range(1, longest+1)], [])
 		columns.insert(0, 'node')
 		final_df = pd.DataFrame(final_data, columns=columns).sort_values(by='node', ascending=0)
-
-		# Results
-		# print('::: RESULTS :::')
-		# print(final_df.head())
-		# print('::: VARIANCE BETWEEN DISTANCES :::')
-		return np.var(np.array(weights))
-
-class VoronoiDiagram:
-
-	""" |--- Gives realistic estimate of 2D-Decision boundary ---|
-		::: Only takes grid_doc_vectors ::: """
-
-	def __init__(self):
-		self.grid_doc_vectors = grid_doc_vectors
-		self.Y_train = Y_train
-		self.y_predicted = y_predicted
-		self.best_n_feats = best_n_feats
-		self.ordered_authors = ordered_authors
-		self.ordered_titles = ordered_titles
-
-	def plot(self):
-		
-		colours = {'Bern': '#000000', 'NicCl': '#000000', 'lec': '#ff0000', 
-				   'ro': '#ff0000', 'Alain': '#000000', 'AnsLaon': '#000000', 
-			   	   'EberYpr': '#000000', 'Geof': '#000000', 'GilPoit': '#000000'}
-
-		# Plotting SVM
-
-		# Dimensions of the data reduced in 2 steps - from 300 to 50, then from 50 to 2 (this is a strong recommendation).
-		# t-SNE (t-Distributed Stochastic Neighbor Embedding): t-SNE is a tool for data visualization. 
-		# Local similarities are preserved by this embedding. 
-		# t-SNE converts distances between data in the original space to probabilities.
-		# In contrast to, e.g., PCA, t-SNE has a non-convex objective function. The objective function is minimized using a gradient descent 
-		# optimization that is initiated randomly. As a result, it is possible that different runs give you different solutions.
-
-		# First, reach back to original values, and put in the new y predictions in order to draw up the Voronoi diagram, which is basically
-		# a 1-Nearest Neighbour fitting. (For the Voronoi representation, see MLA	
-	    # Migut, M. A., Marcel Worring, and Cor J. Veenman. "Visualizing multi-dimensional decision boundaries in 2D." 
-	    # Data Mining and Knowledge Discovery 29.1 (2015): 273-295.)
-
-		# IMPORTANT: we take the grid_doc_vectors (not original data), those feature vectors which the SVM itself has made the decision on.
-		# We extend the y vector with the predicted material
-
-		print('::: running t-SNE for dimensionality reduction :::')
-
-		y = np.append(self.Y_train, self.y_predicted, axis=0)
-
-		# If features still too many, truncate the grid_doc_vectors to reasonable amount, then optimize further
-		# A larger / denser dataset requires a larger perplexity
-
-		if self.best_n_feats < 50:
-			X_embedded = TSNE(n_components=2, perplexity=40, verbose=2).fit_transform(self.grid_doc_vectors)
-		else:
-			X_reduced = TruncatedSVD(n_components=50, random_state=0).fit_transform(self.grid_doc_vectors)
-			X_embedded = TSNE(n_components=2, perplexity=40, verbose=2).fit_transform(X_reduced)
-
-		# create meshgrid
-		resolution = 100 # 100x100 background pixels
-		X2d_xmin, X2d_xmax = np.min(X_embedded[:,0]), np.max(X_embedded[:,0])
-		X2d_ymin, X2d_ymax = np.min(X_embedded[:,1]), np.max(X_embedded[:,1])
-		xx, yy = np.meshgrid(np.linspace(X2d_xmin, X2d_xmax, resolution), np.linspace(X2d_ymin, X2d_ymax, resolution))
-
-		# Approximate Voronoi tesselation on resolution x resolution grid using 1-NN
-		background_model = KNeighborsClassifier(n_neighbors=1).fit(X_embedded, y)
-		voronoiBackground = background_model.predict(np.c_[xx.ravel(), yy.ravel()])
-		voronoiBackground = voronoiBackground.reshape((resolution, resolution))
-
-		# (http://stackoverflow.com/questions/37718347/plotting-decision-boundary-for-high-dimension-data)
-		vor = Voronoi(X_embedded)
-
-		fig = plt.figure(figsize=(10,8))
-
-		# Define colour mapping
-
-		plt.contourf(xx, yy, voronoiBackground, levels=[0, 0.5, 1], colors=('#eaeaea', '#b4b4b4'))
-		ax = fig.add_subplot(111)
-		
-		ax.scatter(X_embedded[:,0], X_embedded[:,1], 100, edgecolors='none', facecolors='none')
-		for p1, p2, a, title in zip(X_embedded[:,0], X_embedded[:,1], self.ordered_authors, self.ordered_titles):
-			ax.text(p1, p2, title[:2] + '_' + title.split("_")[1], ha='center',
-		    va='center', color=colours[a], fontdict={'size': 7})
-		for vpair in vor.ridge_vertices:
-		    if vpair[0] >= 0 and vpair[1] >= 0:
-		    	v0 = vor.vertices[vpair[0]]
-		    	v1 = vor.vertices[vpair[1]]
-		    	# Draw a line from v0 to v1.
-		    	plt.plot([v0[0], v1[0]], [v0[1], v1[1]], 'k', linewidth=0.3, linestyle='--')
-
-		ax.set_xlabel('F1 (Conditional probability)')
-		ax.set_ylabel('F2 (Conditional probability)')
-
-		plt.axis([X2d_xmin, X2d_xmax, X2d_ymin, X2d_ymax])
-
-		plt.show()
-
-		fig.savefig("/Users/jedgusse/stylofactory/output/fig_output/voronoi_fig.pdf", transparent=True, format='pdf')
-
-class RollingDelta:
-
-	""" |--- Rolling Delta ---|
-		::: Roll test vectors over centroid train vector ::: """
-
-	def __init__(self, folder_location, n_feats, invalid_words, sample_size, step_size, test_dict, rnd_dct):
-		self.folder_location = folder_location
-		self.n_feats = n_feats
-		self.invalid_words = invalid_words
-		self.sample_size = sample_size
-		self.step_size = step_size
-		self.test_dict = test_dict
-		self.rnd_dct = rnd_dct
-
-	def plot(self):
-
-		# Make a train_test_split
-		# The training corpus is the benchmark corpus
-
-		train_data = []
-		train_metadata = []
-		
-		test_data = []
-		test_metadata = []
-
-		# Make a split by using the predefined test_dictionary
-
-		print("::: test - train - split :::")
-
-		for filename in glob.glob(self.folder_location + '/*'):
-			author = filename.split("/")[-1].split(".")[0].split("_")[0]
-			title = filename.split("/")[-1].split(".")[0].split("_")[1]
-
-			if title not in self.test_dict.values():
-				author, title, text = DataReader(filename, 
-										self.sample_size, self.test_dict,
-										self.rnd_dct).metadata(sampling=True,
-										type='file', randomization=False)
-				train_metadata.append((author, title))
-				train_data.append(text)
-
-			elif title in self.test_dict.values():
-				author, title, text = DataReader(filename, 
-										self.sample_size, self.test_dict,
-										self.rnd_dct).metadata(sampling=False, 
-										type='file', randomization=False)
-				test_metadata.append((author, title))
-				test_data.append(text.split())
-
-		# Unnest nested list
-		# Preparing the two corpora for take-off
-		train_data = sum(train_data, [])
-
-		print("::: vectorizing training corpus :::")
-
-		# Vectorize training data
-		doc_vectors, features = Vectorizer(train_data, self.invalid_words,
-									  n_feats=self.n_feats,
-									  feat_scaling=False,
-									  analyzer='word',
-									  vocab=None
-									  ).raw()
-
-		# We first turn our raw counts into relative frequencies
-		relative_vectors = [vector / np.sum(vector) for vector in doc_vectors]
-		
-		# We produce a standard deviation vector, that will later serve to give more weight to highly changeable words and serves to
-		# boost words that have a low frequency. This is a normal Delta procedure.
-		# We only calculate the standard deviation on the benchmark corpus, since that is the distribution against which we want to compare
-		stdev_vector = np.std(relative_vectors, axis = 0)
-
-		# We make a centroid vector for the benchmark corpus
-		centroid_vector = np.mean(relative_vectors, axis=0)
-
-		# Now we have turned all the raw counts of the benchmark corpus into relative frequencies, and there is a centroid vector
-		# which counts as a standard against which the test corpus can be compared.
-
-		# We now divide the individual test texts in the given sample lengths, taking into account the step_size of overlap
-		# This is the "shingling" procedure, where we get overlap, where we get windows	
-
-		# Get highest x value
-		lengths = np.array([len(text) for text in test_data])
-		maxx = lengths[np.argmax(lengths)]
-
-		print("::: making step-sized windows and rolling out test data :::")
-
-		all_data = []
-		for (author, title), test_text in zip(test_metadata, test_data):
-
-			steps = np.arange(0, len(test_text), self.step_size)
-			step_ranges = []
-
-			windowed_samples = []
-			for each_begin in steps:
-				sample_range = range(each_begin, each_begin + self.sample_size)
-				step_ranges.append(sample_range)
-				text_sample = []
-				for index, word in enumerate(test_text):
-					if index in sample_range:
-						text_sample.append(word)
-				windowed_samples.append(text_sample)
-
-			# Now we change the samples to numerical values, using the features as determined in code above
-			# Only allow text samples that have desired sample length
-
-			window_vectors = []
-			for text_sample in windowed_samples:
-				if len(text_sample) == self.sample_size:
-					vector = []
-					counter = Counter(text_sample)
-					for feature in features:
-						vector.append(counter[feature])
-					window_vectors.append(vector)
-			window_vectors = np.asarray(window_vectors)
-
-			window_relative = [vector / np.sum(vector) for vector in window_vectors]
-
-			delta_scores = []
-			for vector in window_relative:
-				delta_distances = np.mean(np.absolute(centroid_vector - vector) / stdev_vector)
-				delta_score = np.mean(delta_distances)
-				delta_scores.append(delta_score)
-
-			x_values = [graphthing[-1] for graphthing, sample in zip(step_ranges, windowed_samples) if len(sample) == self.sample_size]
-
-			data = [(author, title, x+1, y) for x, y in zip(x_values, delta_scores)]
-			all_data.append(data)
-
-		all_data = sum(all_data, [])
-		df = pd.DataFrame(all_data, columns=['author', 'title', 'x-value', 'delta-value'])
-
-		# Plot with seaborn
-
-		fig = plt.figure(figsize=(20,5))
-
-		sns.plt.title('Rolling Delta')
-		sns.set(font_scale=0.5)
-		sns.set_style("whitegrid")
-
-		ax = sns.pointplot(x=df['x-value'], y=df['delta-value'], data=df, ci=5, scale=0.4, hue='author')
-
-		ax.set_xlabel("Step Size: {} words, Sample Size: {} words".format(str(self.step_size), str(self.sample_size)))
-		ax.set_ylabel("Delta Score vs. Centroid Vector")
-
-		# Set good x tick labels
-		for ind, label in enumerate(ax.get_xticklabels()):
-		    if ind % 30 == 0:
-		    	label.set_visible(True)
-		    else:
-		    	label.set_visible(False)
-
-		sns.plt.show()
-		fig.savefig("/Users/jedgusse/compstyl/output/fig_output/rollingdelta.pdf", bbox_inches='tight')
-
-class IntrinsicPlagiarism:
-
-	""" |--- Intrinsic Plagiarism ---|
-		::: N-gram profiles and a sliding window with no reference corpus ::: """
-
-	def __init__(self, folder_location, n_feats, invalid_words, sample_size, step_size):
-		self.folder_location = folder_location
-		self.n_feats = n_feats
-		self.invalid_words = invalid_words
-		self.sample_size = sample_size
-		self.step_size = step_size
-
-	def plot(self, support_ngrams, support_punct):
-		
-		# Make sure the analyzer is on the character or word level.
-		analyzer = ''
-		n = 3
-		ngram_range = None
-		if support_ngrams == False:
-			analyzer += 'word'
-			ngram_range = ((1,1))
-		else:
-			analyzer += 'char'
-			# Advised by Stamatatos: the 3gram range
-			ngram_range = ((n,n))
-
-		# Open file and set up stepsized samples
-		filename = glob.glob(self.folder_location+"/*")
-		if len(filename) > 1:
-			sys.exit("-- | ERROR: Intrinsic plagiarism detection can handle only 1 file")
-		fob = open(filename[0])
-		text = fob.read()
-		bulk = []
-		if support_punct == False:
-			for feat in text.strip().split():
-				feat = "".join([char for char in feat if char not in punctuation])
-				bulk.append(feat)
-
-		if analyzer == 'word':
-			text = bulk
-		elif analyzer == 'char':
-			text = " ".join(bulk)
-
-		# Make sure the texts are split when words are analyzed
-		# Also the reconnection of features in the texts happens differently
-		print("::: creating sliding windows :::")
-		steps = np.arange(0, len(text), self.step_size)
-		step_ranges = []
-		windowed_samples = []
-		for each_begin in steps:
-			sample_range = range(each_begin, each_begin + self.sample_size)
-			step_ranges.append(sample_range)
-			text_sample = []
-			for index, feat in enumerate(text):
-				if index in sample_range:
-					text_sample.append(feat)
-			if len(text_sample) == self.sample_size:
-				if analyzer == 'char':
-					windowed_samples.append("".join(text_sample))
-				elif analyzer == 'word':
-					windowed_samples.append(" ".join(text_sample))
-		if analyzer == 'word':
-			text = " ".join(text)
-
-		print("::: converting windows to document vectors :::")
-		model = CountVectorizer(analyzer=analyzer, ngram_range=ngram_range, 
-								stop_words=self.invalid_words)
-		doc_vector = model.fit_transform([text]).toarray().flatten()
-		doc_vector = doc_vector / len(text)
-		vocab = model.get_feature_names()
-
-		print("::: calculating dissimilarity measures :::")
-		# Count with predefined vocabulary based on entire document
-		ds = []
-		model = CountVectorizer(analyzer=analyzer, ngram_range=ngram_range, 
-								vocabulary=vocab, stop_words=self.invalid_words)
-		for sample in windowed_samples:
-			sample_vector = model.fit_transform([sample]).toarray().flatten()
-			sample_vector = sample_vector / len(sample)
-			dissimilarity_measure = np.power(np.mean(np.divide(2*(sample_vector - doc_vector), sample_vector + doc_vector)), 2)
-			ds.append(dissimilarity_measure)
-		
-		# Set up threshold; in calculating the threshold, ignore likely-to-be plagiarized passages 
-		filter = np.mean(ds) + np.std(ds)
-		averaged_ds = [i for i in ds if i <= filter]
-		filter_threshold = np.mean(averaged_ds) + 2*np.std(averaged_ds)
-
-		print("::: visualizing style change function «sc» :::")
-		if analyzer == 'char':
-			x_values = [graphthing[-1] for graphthing, sample in zip(step_ranges, windowed_samples) if len(sample) == self.sample_size]
-		elif analyzer == 'word':
-			x_values = [graphthing[-1] for graphthing, sample in zip(step_ranges, windowed_samples)]
-		data = [(x+1, y, filter_threshold) for x, y in zip(x_values, ds)]
-		df = pd.DataFrame(data, columns=['range', 'dissimilarity measure', 'filter_threshold'])
-
-		# Exporting plagiarized text to database
-		print("::: ranges and detected stylistic outliers :::")
-		df_plag = []
-		for s_range, dissimilarity_measure in zip(step_ranges, ds):
-			if dissimilarity_measure >= filter_threshold:
-				range_string = str(s_range[0]) + "-" + str(s_range[-1])
-				plag_text = "".join(text[index] for index in s_range)
-				df_plag.append((range_string, plag_text))
-		df_plag = pd.DataFrame(df_plag, columns=['{} range'.format(analyzer), 'plagiarized'])
-		print(df_plag)
-
-		# Plot with seaborn
-
-		fig = plt.figure(figsize=(20,5))
-
-		sns.plt.title(r'Intrinsic plagiarism, ${}-profiling$'.format(analyzer))
-		sns.set(font_scale=0.5)
-		sns.set_style("darkgrid")
-
-		ax = sns.pointplot(x=df['range'], y=df['dissimilarity measure'], data=df, ci=5, scale=0.4)
-		ax.set_xlabel(r"Step Size: ${}$ {}s, Sample Size: ${}$ {}s".format(str(self.step_size), analyzer, str(self.sample_size), analyzer))
-		ax.set_ylabel(r"Dissimilarity measure ($d$)")
-
-		# Plot red line
-		plt.plot([0, step_ranges[-1][-1]], [filter_threshold, filter_threshold], '--', lw=0.75, color='r')
-
-		# Set right xtick labels
-		increment = np.int(np.round(len(ax.get_xticklabels())/10))
-		visible_labels = range(0, len(ax.get_xticklabels()), increment)
-		for idx, label in enumerate(ax.get_xticklabels()):
-		    if idx in visible_labels:
-		    	label.set_visible(True)
-		    else:
-		    	label.set_visible(False)
-
-		sns.plt.show()
-		fig.savefig("/Users/jedgusse/compstyl/output/fig_output/intrinsic_plagiarism.pdf", bbox_inches='tight')
-
-class HeatMap:
-
-	def __init__(self, doc_vectors, features, authors, titles):
-		self.doc_vectors = doc_vectors
-		self.authors = authors
-		self.titles = titles
-		self.features = features 
-
-	def plot(self):
-		distance_matrix = squareform(pdist(self.doc_vectors, 'cityblock'))
-		
