@@ -1,41 +1,62 @@
 #!/usr/bin/env
 
-from preprocess import vectorize, zscore_Delta, Tfidf_Vectorizer
-from knn_metric import knn
-from pca import Principal_Components_Analysis
-from hierarchy import Dendrogram, Heatmap, Plot_Frequencies, Plot_Loadings, Gephi_Networks
-from vocabulary_richness import Deviant_Cwords
-from rollingdelta import Rolling_Delta
+from preprocess import DataReader, Vectorizer
+from visualization import PrinCompAnal, GephiNetworks
 
-# Sample length, amount of features, location of corpus folder
+# Insert folder where text files are located to perform:
+	# Principal components analysis
+	# k-NN networks (Gephi network analysis)
+folder_location = "/Users/..."
 
-sample_length = 1500
-feat_amount = 150
-nearest_neighbors = 6
-folder_location = "/Users/.../"
-step_size = 300
+# PARAMETERS
+### ||| ------ ||| ###
 
-invalid_words = ["dummyword", "tu", "tuus", "vester", "vos"]
+sample_size = 4000
+n_feats = 150
+step_size = 10000
 
-if __name__ == "__main__":
+rnd_dct = {'n_samples': 140,
+		   'smooth_train': True, 
+		   'smooth_test': False}
 
-	authors, titles, texts, raw_counts, features = vectorize(folder_location, sample_length, feat_amount, invalid_words)
-	zscore_vectors = zscore_Delta(raw_counts)
-	tfidf_vectors = Tfidf_Vectorizer(raw_counts, features)
-	distances, indices = knn(authors, titles, zscore_vectors, nearest_neighbors)
+invalid_words = ['dummyword']
 
-	# Terminal scores; report of results
+# For classification tests, split data into training and test corpus (classifier will train and evaluate on training corpus, 
+# and predict on new test corpus)
+
+test_dict = {}
+
+if __name__ == '__main__':
+
+	authors, titles, texts = DataReader(folder_location, sample_size,
+										test_dict, rnd_dct
+										).metadata(sampling=True,
+										type='folder',
+										randomization=False)
+
+	doc_vectors, doc_features = Vectorizer(texts, invalid_words,
+									  n_feats=n_feats,
+									  feat_scaling=False,
+									  analyzer='word',
+									  vocab=None
+									  ).raw()
+
+	tfidf_vectors, tfidf_features = Vectorizer(texts, invalid_words,
+								  n_feats=n_feats,
+								  feat_scaling='standard_scaler',
+								  analyzer='word',
+								  vocab=None
+								  ).tfidf(smoothing=True)
+
+	PrinCompAnal(authors, titles, tfidf_vectors, tfidf_features, sample_size, n_components=2).plot(
+													show_samples=True,
+													show_loadings=True,
+													sbrn_plt=False)
 	
-	print("\n", "----| Features applied:", "\n")
-	print("\t" + ", ".join(features), "\n", "\n")
-
-	#Principal_Components_Analysis(tfidf_vectors, authors, titles, features, show_samples='yes', show_loadings='yes')
-	#Dendrogram(zscore_vectors, authors, titles, features)
-	#Plot_Loadings(authors, titles, raw_counts, zscore_vectors, features, feat_amount, "Bernard_vester")
-	#Plot_Frequencies(authors, titles, raw_counts, features, feat_amount, "Bernard_vester_freq")
-	#Heatmap(zscore_vectors, authors, titles, features)
-	#Gephi_Networks(authors, titles, tfidf_vectors, nearest_neighbors)
-	#Deviant_Cwords(folder_location)
-	#Rolling_Delta(sample_length, feat_amount, invalid_words, step_size)
-
-
+	# Note that this returns node and edge worksheets (gephi_nodes.txt, gephi_edges.txt)
+	# Gephi needs to be downloaded and the worksheets need to be imported
+	# https://gephi.org/
+	GephiNetworks(folder_location, sample_size, invalid_words).plot(feat_range=[10, 50, 100, 150], 
+																		random_sampling='stratified',
+																		corpus_size=90)
+	
