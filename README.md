@@ -1,6 +1,6 @@
-# Jeroen De Gussem, "Bernard of Clairvaux and Nicholas of Montiéramey: Tracing the Secretarial Trail with Stylometry", *Speculum* 92.4 (2017): forthcoming October 2017.
+# Jeroen De Gussem, "Bernard of Clairvaux and Nicholas of Montiéramey: Tracing the Secretarial Trail with Stylometry", *Speculum* 92.S1 (2017): 190-225.
 
-This repository comprises the code, corpora and appendix of figures for Jeroen De Gussem, "Bernard of Clairvaux and Nicholas of Montiéramey: Tracing the Secretarial Trail with Stylometry", *Speculum* 92.4 (October 2017), in David Birnbaum, Sheila Bonde and Mike Kestemont, "The *Speculum* Supplement on the Digital Middle Ages", *Speculum* 92.4 (October 2017). 
+This repository comprises the code, corpora and appendix of figures for Jeroen De Gussem, "Bernard of Clairvaux and Nicholas of Montiéramey: Tracing the Secretarial Trail with Stylometry", *Speculum* 92.S1 (2017): 190-225, which is a part of the "Digital Middle Ages" supplement to *Speculum* as issued in October 2017.
 
 # Corpus Details
 
@@ -24,8 +24,4 @@ Clone this repository locally (i.e. download it in a convenient location). The t
 # Acknowledgements
 
 This article is a result of the research project “Collaborative Authorship in Twelfth-Century Latin Literature: A Stylometric Approach to Gender, Synergy and Authority,” funded by the Ghent University Special Research Fund (BOF). Its execution rests on a close collaboration between the Henri Pirenne Institute for Medieval Studies at Ghent University, the CLiPS Computational Linguistics Group at the University of Antwerp, and the CTLO (Centre Traditio Litterarum Occidentalium) division for computer-assisted research into Latin language and literature housed in the Corpus Christianorum Library and Knowledge Centre of Brepols Publishers in Turnhout (Belgium). I am much indebted to the wisdom and continuous and patient guidance of Jeroen Deploige, Wim Verbaal, and Mike Kestemont, who —each in their respective fields of expertise (medieval cultural history, Latin medieval literature, and computational stylistics)— have tremendously inspired and challenged me in writing this piece. Their voices inevitably resound from this text, so much so that I cannot solely take credit for the whole. I also warmly thank my colleagues from the Latin and History Department in Ghent who have gone through the trouble of reading my preliminary drafts. In particular, Dinah Wouters, Micol Long, and Theo Lap have my sincerest gratitude for personally sending me their valuable feedback. In conclusion, my gratitude goes out to Paul De Jongh, Bart Janssens, Jeroen Lauwers, and Luc Jocqué of Brepols for their commitment to this project.
-
-# References
-
--- forthcoming --
 
