@@ -10,7 +10,7 @@ This repository comprises the code, corpora and appendix of figures for Jeroen D
 
 All text data are available in the *corpus* folder for experimental replication, yet in a camouflaged form so that the copyright protection on the original text editions is respected. Only the texts’ function words were retained in their original form, whereas all content-loaded words were filtered out and replaced by so-called "dummy words".
 
-Since Leclercq’s editions and the *Patrologia Latina* make use of different orthographical conventions, and since Latin is a synthetic language with a high degree of inflection, Bernard and Nicholas’s lexemes were lemmatized (which means that a specific instance of the word is referred to its headword) and a text’s words (tokens) were classified according to grammatical categories (parts of speech or PoS-tags). For this purpose we applied the [Pandora lemmatizer](https://github.com/mikekestemont/pandora) tagger on the texts, a piece of software developed to achieve specifically this. 
+Since Leclercq’s editions and the *Patrologia Latina* make use of different orthographical conventions, and since Latin is a synthetic language with a high degree of inflection, Bernard and Nicholas’s lexemes were lemmatized (which means that a specific instance of the word is referred to its headword) and a text’s words (tokens) were classified according to grammatical categories (parts of speech or PoS-tags). For this purpose we applied the [Pandora lemmatizer](https://biblio.ugent.be/publication/8528273) tagger on the texts, a piece of software developed to achieve specifically this. 
 
 # Code and Visualizations
 
